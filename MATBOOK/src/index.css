@@ -1,0 +1,33 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --highbridge-blue: #0062ff;
+  --highbridge-green: #00a651;
+  --highbridge-red: #ff3b30;
+  --highbridge-cream: #f7f7f7;
+}
+
+@layer components {
+  .node-green {
+    @apply bg-green-500 text-white px-4 py-2 rounded-md min-w-[200px] text-center;
+  }
+  
+  .node-red {
+    @apply bg-red-500 text-white px-4 py-2 rounded-md min-w-[200px] text-center;
+  }
+  
+  .workflow-node {
+    @apply bg-white border border-gray-300 shadow-md rounded-md p-4 min-w-[250px];
+  }
+  
+  .node-connector {
+    @apply h-16 w-0.5 bg-gray-300;
+  }
+  
+  .add-node-button {
+    @apply absolute -top-8 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-300 cursor-pointer;
+  }
+}
