@@ -90,11 +90,8 @@ const Login: React.FC = () => {
         </p>
       </div>
 
-      <div className="relative flex items-center justify-center min-h-screen">
-        <div
-          className="w-full max-w-[420px] bg-white rounded-[40px] p-8 shadow-lg mx-4"
-          style={{ marginLeft: "47rem" }}
-        >
+      <div className="relative flex items-center justify-end min-h-screen px-4 lg:pr-32 xl:pr-48">
+        <div className="w-full max-w-[420px] bg-white rounded-[40px] p-8 shadow-lg">
           <div className="mb-8">
             <p className="text-sm font-semibold text-black mb-2">
               WELCOME BACK!
