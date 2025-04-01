@@ -173,7 +173,7 @@ const WorkflowList: React.FC = () => {
             </div>
             <button
               onClick={handleCreateWorkflow}
-              className="bg-black text-white px-3 py-2 rounded-md flex items-center hover:bg-gray-800 transition whitespace-nowrap text-sm sm:text-base sm:px-4"
+              className="bg-black text-white px-3 py-2 rounded-2xl flex items-center hover:bg-gray-800 transition whitespace-nowrap text-sm sm:text-base sm:px-4"
             >
               <Plus size={18} className="mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Create New Process</span>
@@ -228,13 +228,13 @@ const WorkflowList: React.FC = () => {
                             </button>
                             <button 
                               onClick={() => handleExecute(workflow.id)} 
-                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm"
+                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-2xl text-sm"
                             >
                               Execute
                             </button>
                             <button 
                               onClick={() => handleEditWorkflow(workflow.id)} 
-                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm"
+                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-2xl text-sm"
                             >
                               Edit
                             </button>
