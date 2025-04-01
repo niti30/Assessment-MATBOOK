@@ -10,6 +10,12 @@
   --highbridge-cream: #f7f7f7;
 }
 
+.bg-highbridge-cream {
+  background-color: #F8F3E9;
+  background-image: radial-gradient(#F0EAE0 2px, transparent 2px);
+  background-size: 24px 24px;
+}
+
 @layer components {
   .node-green {
     @apply bg-green-500 text-white px-4 py-2 rounded-md min-w-[200px] text-center;
