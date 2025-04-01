@@ -228,13 +228,13 @@ const WorkflowList: React.FC = () => {
                             </button>
                             <button 
                               onClick={() => handleExecute(workflow.id)} 
-                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm"
+                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-xl text-sm"
                             >
                               Execute
                             </button>
                             <button 
                               onClick={() => handleEditWorkflow(workflow.id)} 
-                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm"
+                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-xl text-sm"
                             >
                               Edit
                             </button>
