@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Json } from "@/integrations/supabase/types";
+import TextBoxConfigModal from "../components/TextBoxConfigModal";
 
 interface Node {
   id: string;
@@ -75,7 +76,7 @@ const WorkflowEditor: React.FC = () => {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showApiConfigModal, setShowApiConfigModal] = useState(false);
   const [showEmailConfigModal, setShowEmailConfigModal] = useState(false);
-const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
+  const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
   const [showNodeSelector, setShowNodeSelector] = useState(false);
   const [currentNodeIndex, setCurrentNodeIndex] = useState<number | null>(null);
   const [addNodeIndex, setAddNodeIndex] = useState<number | null>(null);
@@ -110,22 +111,18 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
           let workflowNodes: Node[] = defaultNodes;
 
           if (hasNodes(data.workflow_data)) {
-            // Properly type cast each node to ensure it matches our Node interface
             workflowNodes = data.workflow_data.nodes.map(
               (node: any): Node => ({
                 id: node.id,
-                // Ensure type is one of the allowed values, default to 'api' if not
                 type: ["start", "end", "api", "email", "textbox"].includes(
                   node.type,
                 )
                   ? (node.type as Node["type"])
                   : "api",
-                // Only include status if it exists and is valid
                 ...(node.status &&
                 ["success", "error", "pending"].includes(node.status)
                   ? { status: node.status as "success" | "error" | "pending" }
                   : {}),
-                // Include config if it exists
                 ...(node.config ? { config: node.config } : {}),
               }),
             );
@@ -162,7 +159,6 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
   const checkApiAndEmailExist = () => {
     if (!workflowData.nodes) return false;
 
-    // Start and end nodes are at indices 0 and workflowData.nodes.length - 1
     const innerNodes = workflowData.nodes.slice(1, -1);
 
     if (innerNodes.length < 2) return false;
@@ -182,9 +178,7 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
 
     const newNodes = [...workflowData.nodes];
 
-    // If this is the first node and user selects textbox, auto-add API and Email
     if (newNodes.length === 2 && nodeType === "textbox") {
-      // If this is the first node, we need to add API and Email before Textbox
       const apiNode = {
         id: `node-${Date.now()}-api`,
         type: "api" as const,
@@ -208,13 +202,11 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       setShowNodeSelector(false);
       setAddNodeIndex(null);
 
-      // Configure the API node immediately
       setCurrentNodeIndex(1);
       setShowApiConfigModal(true);
       return;
     }
 
-    // If this is the first node and user selects email, auto-add API first
     if (newNodes.length === 2 && nodeType === "email") {
       const apiNode = {
         id: `node-${Date.now()}-api`,
@@ -233,13 +225,11 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       setShowNodeSelector(false);
       setAddNodeIndex(null);
 
-      // Configure the API node immediately
       setCurrentNodeIndex(1);
       setShowApiConfigModal(true);
       return;
     }
 
-    // If user tries to add a textbox when API and Email aren't configured, don't allow it
     if (nodeType === "textbox" && !checkApiAndEmailExist()) {
       toast({
         title: "Invalid workflow structure",
@@ -252,7 +242,6 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       return;
     }
 
-    // Add the selected node type
     const newNode = {
       id: `node-${Date.now()}`,
       type: nodeType,
@@ -263,12 +252,13 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
     setWorkflowData({ ...workflowData, nodes: newNodes });
     setShowNodeSelector(false);
 
-    // Configure the node immediately after adding
     setCurrentNodeIndex(addNodeIndex + 1);
     if (nodeType === "api") {
       setShowApiConfigModal(true);
     } else if (nodeType === "email") {
       setShowEmailConfigModal(true);
+    } else if (nodeType === "textbox") {
+      setShowTextBoxConfigModal(true);
     }
 
     setAddNodeIndex(null);
@@ -279,7 +269,6 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
 
     const nodeToDelete = workflowData.nodes[index];
 
-    // If deleting an API node, check if there are email nodes that depend on it
     if (nodeToDelete.type === "api") {
       const hasEmailDependency = workflowData.nodes.some(
         (node, idx) => idx > index && node.type === "email",
@@ -296,21 +285,18 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       }
     }
 
-    // For API nodes, show API config
     if (nodeToDelete.type === "api") {
       setCurrentNodeIndex(index);
       setShowApiConfigModal(true);
       return;
     }
 
-    // For Email nodes, show Email config
     if (nodeToDelete.type === "email") {
       setCurrentNodeIndex(index);
       setShowEmailConfigModal(true);
       return;
     }
 
-    // Default deletion behavior for other cases
     const newNodes = [...workflowData.nodes];
     newNodes.splice(index, 1);
     setWorkflowData({ ...workflowData, nodes: newNodes });
@@ -331,7 +317,6 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       return false;
     }
 
-    // All nodes must have success status
     const innerNodes = workflowData.nodes.slice(1, -1);
     const allConfigured = innerNodes.every((node) => node.status === "success");
 
@@ -344,10 +329,8 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       return false;
     }
 
-    // Get nodes excluding start and end
     const firstNode = innerNodes[0];
 
-    // Check if first node is API
     if (firstNode && firstNode.type !== "api") {
       toast({
         title: "Invalid workflow structure",
@@ -357,7 +340,6 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       return false;
     }
 
-    // Check if second node (if exists) is Email
     if (innerNodes.length > 1 && innerNodes[1].type !== "email") {
       toast({
         title: "Invalid workflow structure",
@@ -380,13 +362,11 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       return;
     }
 
-    // Validate workflow structure
     if (!validateWorkflow()) {
       return;
     }
 
     try {
-      // Fix: Properly cast workflow_data to Json type using as unknown as Json
       const workflowObject = {
         name,
         description,
@@ -437,7 +417,6 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
   const handleApiConfigSave = (data: any) => {
     if (currentNodeIndex === null || !workflowData.nodes) return;
 
-    // Validate API config has all required fields
     if (!data.method || !data.url || !data.headers || !data.body) {
       toast({
         title: "Incomplete configuration",
@@ -469,7 +448,6 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
     setShowApiConfigModal(false);
     setCurrentNodeIndex(null);
 
-    // If this was the first API node and next is an Email node, configure it
     if (
       currentNodeIndex + 1 < newNodes.length &&
       newNodes[currentNodeIndex + 1].type === "email" &&
@@ -483,7 +461,6 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
   const handleEmailConfigSave = (data: any) => {
     if (currentNodeIndex === null || !workflowData.nodes) return;
 
-    // Validate Email config
     if (!data.emailContent) {
       toast({
         title: "Incomplete configuration",
@@ -516,6 +493,41 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
     setCurrentNodeIndex(null);
   };
 
+  const handleTextBoxConfigSave = (data: any) => {
+    if (currentNodeIndex === null || !workflowData.nodes) return;
+
+    if (!data.message) {
+      toast({
+        title: "Incomplete configuration",
+        description: "Message field is required",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newNodes = [...workflowData.nodes];
+    newNodes[currentNodeIndex] = {
+      ...newNodes[currentNodeIndex],
+      config: data,
+      status: "success",
+    };
+
+    const allConfigured = newNodes.every(
+      (node) =>
+        node.type === "start" ||
+        node.type === "end" ||
+        node.status === "success",
+    );
+
+    setWorkflowData({
+      ...workflowData,
+      nodes: newNodes,
+      status: allConfigured ? "passed" : "draft",
+    });
+    setShowTextBoxConfigModal(false);
+    setCurrentNodeIndex(null);
+  };
+
   const handleConfigureNode = (index: number) => {
     if (!workflowData.nodes) return;
 
@@ -526,6 +538,8 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       setShowApiConfigModal(true);
     } else if (node.type === "email") {
       setShowEmailConfigModal(true);
+    } else if (node.type === "textbox") {
+      setShowTextBoxConfigModal(true);
     }
   };
 
@@ -752,6 +766,15 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
           setCurrentNodeIndex(null);
         }}
         onSave={handleEmailConfigSave}
+      />
+
+      <TextBoxConfigModal
+        isOpen={showTextBoxConfigModal}
+        onClose={() => {
+          setShowTextBoxConfigModal(false);
+          setCurrentNodeIndex(null);
+        }}
+        onSave={handleTextBoxConfigSave}
       />
 
       <NodeSelector
