@@ -13,7 +13,7 @@ const NodeSelector: React.FC<NodeSelectorProps> = ({ visible, onClose, onSelect,
 
   return (
     <div className="fixed inset-0 z-50">
-      <div className="absolute right-[94px] top-24 bg-white rounded-2xl shadow-lg p-4 max-w-[200px]">
+      <div className="absolute right-[194px] top-[74px] bg-white rounded-2xl shadow-lg p-4 max-w-[200px]">
         <div className="flex flex-col gap-3">
           <button 
             className="w-full px-4 py-3 border border-gray-300 rounded-2xl hover:bg-gray-50 text-left"
