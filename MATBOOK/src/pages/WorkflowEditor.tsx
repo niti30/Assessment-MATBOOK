@@ -77,6 +77,7 @@ const WorkflowEditor: React.FC = () => {
   const [showEmailConfigModal, setShowEmailConfigModal] = useState(false);
 const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
   const [showNodeSelector, setShowNodeSelector] = useState(false);
+  const [textBoxMessage, setTextBoxMessage] = useState<string>('');
   const [currentNodeIndex, setCurrentNodeIndex] = useState<number | null>(null);
   const [addNodeIndex, setAddNodeIndex] = useState<number | null>(null);
 
@@ -526,6 +527,8 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
       setShowApiConfigModal(true);
     } else if (node.type === "email") {
       setShowEmailConfigModal(true);
+    } else if (node.type === "textbox") {
+      setShowTextBoxConfigModal(true);
     }
   };
 
@@ -752,6 +755,30 @@ const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
           setCurrentNodeIndex(null);
         }}
         onSave={handleEmailConfigSave}
+      />
+
+      <TextBoxConfigModal
+        isOpen={showTextBoxConfigModal}
+        onClose={() => {
+          setShowTextBoxConfigModal(false);
+          setCurrentNodeIndex(null);
+        }}
+        onSave={(data) => {
+          if (currentNodeIndex !== null && workflowData.nodes) {
+            const newNodes = [...workflowData.nodes];
+            newNodes[currentNodeIndex] = {
+              ...newNodes[currentNodeIndex],
+              config: data,
+              status: 'success',
+            };
+            setWorkflowData({
+              ...workflowData,
+              nodes: newNodes,
+            });
+            setShowTextBoxConfigModal(false);
+            setCurrentNodeIndex(null);
+          }
+        }}
       />
 
       <NodeSelector
