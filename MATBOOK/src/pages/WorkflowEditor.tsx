@@ -75,6 +75,7 @@ const WorkflowEditor: React.FC = () => {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showApiConfigModal, setShowApiConfigModal] = useState(false);
   const [showEmailConfigModal, setShowEmailConfigModal] = useState(false);
+const [showTextBoxConfigModal, setShowTextBoxConfigModal] = useState(false);
   const [showNodeSelector, setShowNodeSelector] = useState(false);
   const [currentNodeIndex, setCurrentNodeIndex] = useState<number | null>(null);
   const [addNodeIndex, setAddNodeIndex] = useState<number | null>(null);

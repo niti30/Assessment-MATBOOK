@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CheckCircle, Trash, Check } from 'lucide-react';
 
@@ -27,7 +26,7 @@ const WorkflowNode: React.FC<WorkflowNodeProps> = ({ type, status = 'pending', o
       default:
         return (
           <div 
-            className={`px-6 py-4 bg-white border ${status === 'success' ? 'border-green-500' : 'border-gray-200'} rounded-md w-80 flex justify-between items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer`}
+            className={`px-6 py-4 bg-white border ${status === 'success' ? 'border-green-500' : 'border-gray-200'} rounded-2xl w-80 flex justify-between items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer`} //Rounded corners added here.
             onClick={onConfigure}
           >
             <div className="flex items-center">
@@ -35,7 +34,7 @@ const WorkflowNode: React.FC<WorkflowNodeProps> = ({ type, status = 'pending', o
                 {type === 'api' ? 'API Call' : type === 'email' ? 'Email' : 'Text Box'}
               </span>
             </div>
-            
+
             {status === 'success' ? (
               <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
                 <Check size={14} className="text-white" />
