@@ -26,7 +26,7 @@ const WorkflowNode: React.FC<WorkflowNodeProps> = ({ type, status = 'pending', o
       default:
         return (
           <div 
-            className={`px-6 py-4 bg-white border ${status === 'success' ? 'border-green-500' : 'border-gray-200'} rounded-2xl w-80 flex justify-between items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer`} //Rounded corners added here.
+            className={`px-6 py-4 bg-white border ${status === 'success' ? 'border-green-500' : 'border-gray-200'} rounded-3xl w-80 flex justify-between items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer ml-[-90px]`} 
             onClick={onConfigure}
           >
             <div className="flex items-center">
