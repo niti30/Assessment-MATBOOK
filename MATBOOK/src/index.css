@@ -46,4 +46,25 @@
   .add-node-button {
     @apply absolute w-6 h-6 bg-white rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-50 cursor-pointer border border-gray-300 shadow-sm;
   }
+
+  /* Global button and popup styles */
+  button, 
+  input,
+  select,
+  textarea {
+    @apply rounded-xl;
+  }
+
+  [role="dialog"],
+  [role="tooltip"],
+  [role="menu"],
+  [role="listbox"],
+  .popover-content {
+    @apply rounded-2xl !important;
+  }
+
+  .modal-content,
+  .dialog-content {
+    @apply rounded-2xl overflow-hidden;
+  }
 }
