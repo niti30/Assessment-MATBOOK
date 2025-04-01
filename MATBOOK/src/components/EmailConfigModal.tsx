@@ -41,7 +41,7 @@ const EmailConfigModal: React.FC<EmailConfigModalProps> = ({ isOpen, onClose, on
           <div className="flex justify-end">
             <button
               onClick={handleSave}
-              className="px-6 py-3 bg-red-500 text-white text-lg rounded-md hover:bg-red-600"
+              className="px-4 py-1.5 bg-red-500 text-white text-sm rounded-xl hover:bg-red-600"
               disabled={!emailContent.trim()}
             >
               Save
