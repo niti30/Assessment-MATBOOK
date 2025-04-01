@@ -18,22 +18,32 @@
 
 @layer components {
   .node-green {
-    @apply bg-green-500 text-white px-4 py-2 rounded-md min-w-[200px] text-center;
+    @apply bg-[#8AB661] text-white w-16 h-16 rounded-full flex items-center justify-center font-medium;
   }
   
   .node-red {
-    @apply bg-red-500 text-white px-4 py-2 rounded-md min-w-[200px] text-center;
+    @apply bg-[#E75D57] text-white w-16 h-16 rounded-full flex items-center justify-center font-medium;
   }
   
   .workflow-node {
-    @apply bg-white border border-gray-300 shadow-md rounded-md p-4 min-w-[250px];
+    @apply relative flex items-center justify-center;
   }
   
   .node-connector {
-    @apply h-16 w-0.5 bg-gray-300;
+    @apply h-8 w-[2px] bg-gray-300 relative;
+  }
+  
+  .node-connector::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #D1D5DB;
   }
   
   .add-node-button {
-    @apply absolute -top-8 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-300 cursor-pointer;
+    @apply absolute w-6 h-6 bg-white rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-50 cursor-pointer border border-gray-300 shadow-sm;
   }
 }
