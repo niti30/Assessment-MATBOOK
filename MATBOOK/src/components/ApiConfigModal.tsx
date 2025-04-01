@@ -33,7 +33,7 @@ const ApiConfigModal: React.FC<ApiConfigModalProps> = ({ isOpen, onClose, onSave
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end p-4 bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-sm">
+      <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm mr-5">
         <div className="p-6 space-y-4">
           <h3 className="text-lg font-medium">API Configuration</h3>
           

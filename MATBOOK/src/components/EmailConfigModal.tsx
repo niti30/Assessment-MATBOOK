@@ -19,7 +19,7 @@ const EmailConfigModal: React.FC<EmailConfigModalProps> = ({ isOpen, onClose, on
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative bg-white rounded-md shadow-lg overflow-hidden w-full max-w-sm absolute right-4 top-24"> {/* Modified class for smaller size and positioning */}
+      <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden w-full max-w-sm absolute right-5 top-24"> {/* Modified class for smaller size and positioning */}
         {/* Removed the red sidebar */}
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
